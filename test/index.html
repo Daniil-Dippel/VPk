@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/app.js" defer></script>
+
+</head>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&family=Playfair+Display:wght@500;700&display=swap');
+
+
+
+	h2,
+	h3 {
+		font-family: 'Playfair Display', serif;
+		color: #c13b2e;
+		letter-spacing: 0.5px;
+		text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+		transition: color 0.3s ease, transform 0.3s ease;
+	}
+
+	h2:hover,
+	h3:hover {
+		color: #f2b94b;
+		transform: translateY(-2px);
+	}
+
+	p {
+		font-size: 1.05rem;
+		font-weight: 400;
+		color: #e7e0d8;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+		max-width: 700px;
+	}
+
+	.header__content h2 {
+		font-family: 'Playfair Display', serif;
+		font-weight: 700;
+		font-size: 1.4rem;
+		color: #f2b94b;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+	}
+
+	.frame__content h2 {
+		font-size: 2rem;
+		color: #f2b94b;
+		text-transform: uppercase;
+	}
+
+	.frame__content h3 {
+		font-size: 1.4rem;
+		color: #ffdfc0;
+	}
+
+	.frame__content p {
+		font-size: 1.05rem;
+		font-style: italic;
+		color: #f8f5f2;
+	}
+
+	a {
+		color: #f2b94b;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	a:hover {
+		color: #c13b2e;
+	}
+</style>
+
+<body>
+
+	<header class="header">
+		<div class="header__content flex">
+			<a href="../index.html">
+				<h2>Артка</h2>
+			</a>
+		</div>
+	</header>
+
+	<div class="container">
+		<section class="gallery">
+			<div class="continiose"></div>
+
+
+			<div class="frame">
+				<h2>Кооз дүйнө</h2>
+			</div>
+
+			<div class="frame">
+				<div class="frame__content">
+					<div class="frame-media frame-media_left" style="background-image: url(images/1.jpg)"></div>
+				</div>
+			</div>
+
+			<div class="frame frame_bg">
+				<div class="frame__content">
+					<video class="frame-media frame-media_right" src="media/video_optimized.mp4" autoplay loop
+						muted></video>
+				</div>
+			</div>
+
+			<div class="frame"></div>
+
+			<div class="frame">
+				<div class="frame__content text-right">
+					<h3>Орхон–Энесай жазмасы </h3>
+					<p>VIII кылым
+						<br>
+						Негизги мүнөздөмөлөрү:
+						* 38 руна тамгасы
+						* Солдон оңго карай жазылат
+						* Түрк элдеринин биринчи мамлекеттик жазуусу
+
+						Тарыхый мааниси:
+						Түрк жазуу маданиятынын негизи, байыркы түрк тилиндеги
+						эң байыркы эстеликтер. Күлтегин, Билге каган, Тоньюкук
+						эстеликтеринде түрк элинин эрдиги, акылмандыгы
+						жана эл биримдиги тууралуу баяндалат.
+					</p>
+				</div>
+			</div>
+
+			<div class="frame frame_bg">
+				<div class="frame__content">
+					<div class="frame-media frame-media_left" style="background-image: url(images/2.jpg)"></div>
+				</div>
+			</div>
+
+			<div class="frame">
+				<div class="frame__content text-left">
+					<h3>Латын алфавити</h3>
+					<p>1928-1940-жылдар
+						<br>
+						Негизги мүнөздөмөлөрү:
+						* Латын алфавитинин негизиндеги "жаңы алфавит"
+						* 32 тамга, диакритикалык белгилер кошулган
+						* Солдон оңго карай жазылат
+
+						Тарыхый мааниси:
+						Кыргыз элинин сабаттуулугун көтөрүүгө, окуу-жазууну
+						жеңилдетүүгө жардам берген. 1940-жылы кириллица
+						менен алмаштырылган.
+					</p>
+				</div>
+			</div>
+
+			<div class="frame frame_bg">
+				<div class="frame__content">
+					<div class="frame-media frame-media_right" style="background-image: url(images/3.jpg)"></div>
+				</div>
+			</div>
+
+			<div class="frame"></div>
+
+			<div class="frame">
+				<div class="frame__content text-left">
+					<h3>Араб жазуусу</h3>
+					<p>X-XX кылымдар
+						<br>
+						Негизги мүнөздөмөлөрү:
+						* Араб алфавитинин негизинде (36 тамгага чейин)
+						* Оңдон солго карай жазылат
+						* Тамгалар сөздүн ордуна жараша төрт түрдүү формада жазылат
+
+						Тарыхый мааниси:
+						Кыргыз элинин ислам маданиятына кошулушуна шарт түзгөн.
+						XIX кылымга чейин кыргыз акындары, манасчылары, молдолору
+						ушул жазууну колдонушкан.
+					</p>
+				</div>
+			</div>
+
+			<div class="frame frame_bg">
+				<div class="frame__content">
+					<div class="frame-media frame-media_right" style="background-image: url(images/4.jpg)"></div>
+				</div>
+			</div>
+
+			<div class="frame">
+				<div class="frame__content">
+					<video class="frame-media frame-media_left" src="media/video_optimized.mp4" autoplay loop
+						muted></video>
+				</div>
+			</div>
+
+			<div class="frame"></div>
+			<div class="frame"></div>
+
+			<div class="frame frame_bg">
+				<div class="frame__content">
+					<div class="frame-media frame-media_right" style="background-image: url(images/5.jpg)"></div>
+				</div>
+			</div>
+
+			<div class="frame frame_bg">
+				<div class="frame__content">
+					<video class="frame-media" src="media/video_optimized.mp4" autoplay loop muted></video>
+				</div>
+			</div>
+
+			<div class="frame"></div>
+			<div class="frame"></div>
+
+			<div class="frame">
+				<div class="frame__content">© ВПк</div>
+			</div>
+
+		</section>
+	</div>
+
+	<img class="soundbutton paused" src="images/sound.gif" alt="Alt">
+	<audio class="audio" src="media/ambient.mp3" loop></audio>
+
+</body>
+
+</html>

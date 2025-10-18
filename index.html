@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Document</title>
+
+	<link rel="stylesheet" href="css/main.css">
+
+	<script src="libs/gsap/gsap.min.js" defer></script>
+	<script src="libs/gsap/ScrollTrigger.min.js" defer></script>
+	<script src="libs/gsap/ScrollSmoother.min.js" defer></script>
+
+	<script src="js/app.js" defer></script>
+	<style>
+
+		
+		:root {
+			--bg-dark: #3b1f12;
+			--accent: #c33b2e;
+			--accent-2: #f0b43b;
+			--panel: #f8efe6;
+			--texts: #2b1c16;
+			--muted: #6b4f42;
+		}
+
+		.wrapper {
+			margin: 0;
+			font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+			background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), #111;
+			color: var(--texts);
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+
+		/* Main article container (mimics your original) */
+		.main-article {
+			min-height: 105vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 48px 16px;
+			box-sizing: border-box;
+			/* background image moved by user path; keep fallback pattern */
+			background-size: cover;
+			background-position: center;
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* Decorative overlay to make text readable over image */
+		.main-article::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background:
+				radial-gradient(1300px 600px at 50% 10%, rgba(0, 0, 0, 0.45), transparent 30%),
+				linear-gradient(180deg, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.45));
+			pointer-events: none;
+		}
+
+		.main-article__content {
+			position: relative;
+			z-index: 2;
+			max-width: 1100px;
+			width: 100%;
+			margin: 0 auto;
+			padding: 28px;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
+			align-items: center;
+		}
+
+		.main-article__header {
+			margin: 0;
+			color: var(--panel);
+			font-size: 2rem;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			padding: 8px 18px;
+			background: linear-gradient(90deg, rgba(195, 59, 46, 0.95), rgba(240, 180, 59, 0.95));
+			border-radius: 14px;
+			box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+		}
+
+		/* Centered alphabet card */
+		.alphabet-card {
+			width: 100%;
+			max-width: 880px;
+			background: linear-gradient(180deg, rgba(255, 250, 245, 0.98), rgba(253, 244, 235, 0.98));
+			border-radius: 16px;
+			padding: 24px;
+			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+			border: 6px solid rgba(195, 59, 46, 0.12);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* Kyrgyz pattern top border */
+		.alphabet-card::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			height: 44px;
+			background:
+				repeating-linear-gradient(90deg, var(--accent) 0 12px, var(--accent-2) 12px 24px);
+			opacity: 0.12;
+			mix-blend-mode: multiply;
+			pointer-events: none;
+		}
+
+		.card-desc {
+			color: var(--muted);
+			font-size: 0.95rem;
+			text-align: center;
+			max-width: 760px;
+		}
+
+		/* Grid of letters */
+		.alphabet-grid {
+			width: 100%;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
+			gap: 12px;
+			align-items: center;
+			justify-items: center;
+		}
+
+		.letter-btn {
+			background: linear-gradient(180deg, #fff, #f7efe6);
+			border: 3px solid rgba(195, 59, 46, 0.18);
+			box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+			width: 56px;
+			height: 56px;
+			border-radius: 50%;
+			display: inline-grid;
+			place-items: center;
+			font-weight: 700;
+			font-size: 18px;
+			color: var(--accent);
+			cursor: pointer;
+			transition: transform .14s ease, box-shadow .14s ease;
+			user-select: none;
+		}
+
+		.letter-btn:hover {
+			transform: translateY(-6px) scale(1.03);
+			box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+		}
+
+		.letter-btn:active {
+			transform: translateY(-2px) scale(.99);
+		}
+
+		/* larger central styling for primary letters on desktop */
+		@media(min-width:720px) {
+			.alphabet-grid {
+				grid-template-columns: repeat(12, 1fr);
+			}
+
+			.letter-btn {
+				width: 58px;
+				height: 58px;
+				font-size: 18px;
+			}
+		}
+
+		/* Modal */
+		.modal-backdrop {
+			position: fixed;
+			inset: 0;
+			background: rgba(11, 8, 6, 0.55);
+			display: none;
+			align-items: center;
+			justify-content: center;
+			z-index: 9999;
+		}
+
+		.modal-backdrop.show {
+			display: flex;
+		}
+
+		.modal {
+			width: min(640px, 92%);
+			background: var(--panel);
+			border-radius: 12px;
+			padding: 18px;
+			box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+			border: 5px solid rgba(195, 59, 46, 0.12);
+			position: relative;
+			transform-origin: center center;
+			animation: pop .16s ease;
+		}
+
+		@keyframes pop {
+			from {
+				transform: translateY(6px) scale(.98);
+				opacity: 0
+			}
+
+			to {
+				transform: none;
+				opacity: 1
+			}
+		}
+
+		.modal h3 {
+			margin: 0 0 8px 0;
+			font-size: 1.2rem;
+			color: var(--bg-dark);
+		}
+
+		.word-list {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 6px;
+		}
+
+		.word {
+			background: linear-gradient(180deg, rgba(195, 59, 46, 0.06), rgba(240, 180, 59, 0.03));
+			padding: 8px 12px;
+			border-radius: 10px;
+			font-weight: 600;
+			color: var(--bg-dark);
+			box-shadow: 0 6px 18px rgba(88, 48, 36, 0.08);
+		}
+
+		.modal .close {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			border: none;
+			background: transparent;
+			font-size: 1.1rem;
+			cursor: pointer;
+			color: var(--muted);
+		}
+
+		/* decorative foot */
+		.card-footer {
+			display: flex;
+			gap: 12px;
+			align-items: center;
+			justify-content: center;
+			margin-top: 8px;
+			font-size: 0.9rem;
+			color: var(--muted);
+		}
+
+		/* small tweaks for accessibility focus */
+		.letter-btn:focus {
+			outline: 3px solid rgba(240, 180, 59, 0.28);
+			outline-offset: 4px;
+		}
+
+		.close:focus {
+			outline: 2px dashed rgba(195, 59, 46, 0.2);
+			outline-offset: 3px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<div class="content">
+
+			<header class="main-header">
+				<div class="layers">
+					<div class="layer__header">
+						<div class="layers__caption">славян жазуу системасы</div>
+						<div class="layers__title">Кириллица</div>
+					</div>
+					<div class="layer layers__base" style="background-image: url(img/layer-base.png);"></div>
+					<div class="layer layers__middle" style="background-image: url(img/layer-middle.png);"></div>
+					<div class="layer layers__front" style="background-image: url(img/layer-front.png);"></div>
+				</div>
+			</header>
+
+			<div class="main-article" style="background-image: url('./img/dungeon.jpg');">
+				<div class="main-article__content">
+					<h2 class="main-article__header">Кыргызский алфавит</h2>
+
+					<!-- ВАЖНО: именно этот див заменяет <p class="main-article__paragraph"> -->
+					<div class="alphabet-card" aria-label="Кыргызский алфавит">
+						<div class="card-desc">
+							Тамганы тандаңыз. Ар бир тамга — баскыч: ошол тамга менен башталган сөздөрдүн мисалдары көрсөтүлгөн кичинекей терезени ачыңыз. Дизайны кыргыз улуттук оймолорунан шыктанган.
+						</div>
+
+						<div class="alphabet-grid" id="alphabetGrid" role="list">
+							<!-- Кнопки генерируются скриптом ниже -->
+						</div>
+
+						<div class="card-footer">Кыргыз алфавити — таанышуу үчүн практикалык курал. Тамганы басып, ошол тамга менен башталган сөздөрдү көрүңүз.</div>
+					</div>
+
+					
+				</div>
+				<div class="copy"><a href="./test/index.html"
+							style="color:var(--panel);  font-weight:600; font-size: 36px;">Тарыхы</a></div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+				<div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+					<button class="close" id="modalClose" aria-label="Закрыть">&times;</button>
+					<h3 id="modalTitle"> <span id="modalLetter">А</span> — тамгасы</h3>
+					<div id="modalWords" class="word-list" aria-live="polite"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<script>
+		(function () {
+			const alphabet = [
+				'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й',
+				'К', 'Л', 'М', 'Н', 'Ң', 'О', 'Ө', 'П', 'Р', 'С', 'Т',
+				'У', 'Ү', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'
+			];
+
+			const wordsMap = {
+				'А': ['Ата', 'Аял', 'Айлоз', 'Алим'],
+				'Б': ['Бала', 'Базар', 'Бишкек'],
+				'В': ['Виза', 'Вулкан'],
+				'Г': ['Гүл', 'Гааз'],
+				'Д': ['Дос', 'Деңиз', 'Дыйкан'],
+				'Е': ['Ел', 'Ер'],
+				'Ё': ['Ёлка', 'Ёрүк'],
+				'Ж': ['Жер', 'Жаш', 'Жол'],
+				'З': ['Заман', 'Завод'],
+				'И': ['Ил', 'Ишеним', 'Иш'],
+				'Й': ['Йорк', 'Йогурт'],
+				'К': ['Көл', 'Кыргызстан', 'Кош'],
+				'Л': ['Лагман', 'Легенда'],
+				'М': ['Мектеп', 'Манас', 'Маяк'],
+				'Н': ['Назар', 'Нарын', 'Нарын-Көл'],
+				'Ң': ['Ңазыбай', 'Ңоро'], 
+				'О': ['Ой', 'Ойдон', 'Ордо'],
+				'Ө': ['Өрүктүн', 'Өндүрүш', 'Өткөн'],
+				'П': ['Пароход', 'Пайда'],
+				'Р': ['Рух', 'Район'],
+				'С': ['Суу', 'Саякат', 'Салт'],
+				'Т': ['Тоо', 'Тарых', 'Таш'],
+				'У': ['Улут', 'Улуу'],
+				'Ү': ['Үй', 'Үлгү', 'Үн'],
+				'Ф': ['Фестиваль', 'Ферма'],
+				'Х': ['Хан', 'Хурмат'],
+				'Ц': ['Цирк', 'Цех'],
+				'Ч': ['Чай', 'Чоң', 'Чоң-Кемин'],
+				'Ш': ['Шаар', 'Шатыр', 'Шашлык'],
+				'Щ': ['Щука', 'Щёлочка'],
+				'Ъ': ['— (твердый знак не используется)'],
+				'Ы': ['Ысык', 'Ыр'],
+				'Ь': ['ь — (мягкий знак)'],
+				'Э': ['Экономика', 'Эркин'],
+				'Ю': ['Юлдаш', 'Юксалуу'],
+				'Я': ['Ял', 'Январь']
+			};
+
+			const grid = document.getElementById('alphabetGrid');
+			const modalBackdrop = document.getElementById('modalBackdrop');
+			const modalLetter = document.getElementById('modalLetter');
+			const modalWords = document.getElementById('modalWords');
+			const modalClose = document.getElementById('modalClose');
+
+
+			alphabet.forEach(letter => {
+				const btn = document.createElement('button');
+				btn.className = 'letter-btn';
+				btn.type = 'button';
+				btn.setAttribute('aria-label', `${letter} тамгасы`);
+				btn.textContent = letter;
+				btn.addEventListener('click', () => openLetter(letter));
+				grid.appendChild(btn);
+			});
+
+			function openLetter(letter) {
+				modalLetter.textContent = letter;
+
+				modalWords.innerHTML = '';
+				const list = wordsMap[letter] || ['Сөз табылган жок'];
+				list.forEach(w => {
+					const el = document.createElement('div');
+					el.className = 'word';
+					el.textContent = w;
+					modalWords.appendChild(el);
+				});
+				modalBackdrop.classList.add('show');
+				modalBackdrop.setAttribute('aria-hidden', 'false');
+
+				modalClose.focus();
+			}
+
+
+			function closeModal() {
+				modalBackdrop.classList.remove('show');
+				modalBackdrop.setAttribute('aria-hidden', 'true');
+			}
+
+			modalClose.addEventListener('click', closeModal);
+			modalBackdrop.addEventListener('click', (e) => {
+
+				if (e.target === modalBackdrop) closeModal();
+			});
+
+
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape' && modalBackdrop.classList.contains('show')) closeModal();
+			});
+
+			document.addEventListener('focus', function (e) {
+				if (modalBackdrop.classList.contains('show')) {
+					const modal = modalBackdrop.querySelector('.modal');
+					if (modal && !modal.contains(e.target)) {
+						e.stopPropagation();
+						modalClose.focus();
+					}
+				}
+			}, true);
+
+		})();
+	</script>
+
+</body>
+
+</html>
